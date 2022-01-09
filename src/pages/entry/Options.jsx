@@ -1,11 +1,9 @@
 import P from 'prop-types';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 
-import ScoopOptions from './ScoopOptions';
-
-const OPTION_TYPE_SCOOPS = `scoops`;
+import api from '../../services/api';
+import { OPTIONS_TYPES_AS_COMPONENT } from '../../constants/entry';
 
 const Options = ({ optionType }) => {
   const [items, setItems] = useState([]);
@@ -13,7 +11,7 @@ const Options = ({ optionType }) => {
   useEffect(() => {
     const getOptions = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3030/${optionType}`);
+        const { data } = await api.get(`/${optionType}`);
 
         setItems(data);
       } catch (error) {
@@ -24,7 +22,7 @@ const Options = ({ optionType }) => {
     getOptions();
   }, [optionType]);
 
-  const ItemComponent = optionType === OPTION_TYPE_SCOOPS ? ScoopOptions : null;
+  const ItemComponent = OPTIONS_TYPES_AS_COMPONENT[optionType] ?? null;
 
   const optionItems = items.map(({ name, imagePath }) => (
     <ItemComponent key={name} name={name} imagePath={imagePath} />

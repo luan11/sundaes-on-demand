@@ -1,0 +1,12 @@
+import ScoopOptions from '../pages/entry/ScoopOptions';
+import ToppingOptions from '../pages/entry/ToppingOptions';
+
+export const OPTION_TYPE_SCOOPS = `scoops`;
+export const OPTION_TYPE_TOPPINGS = `toppings`;
+
+export const OPTIONS_TYPES_AS_COMPONENT = {
+  [OPTION_TYPE_SCOOPS]: ScoopOptions,
+  [OPTION_TYPE_TOPPINGS]: ToppingOptions,
+};
+
+export const BASE_URL = `http://localhost:3030`;
