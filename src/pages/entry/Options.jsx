@@ -4,9 +4,11 @@ import Row from 'react-bootstrap/Row';
 
 import api from '../../services/api';
 import { OPTIONS_TYPES_AS_COMPONENT } from '../../constants/entry';
+import AlertBanner from '../common/AlertBanner';
 
 const Options = ({ optionType }) => {
   const [items, setItems] = useState([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getOptions = async () => {
@@ -15,12 +17,16 @@ const Options = ({ optionType }) => {
 
         setItems(data);
       } catch (error) {
-        // TODO: Handle error
+        setError(true);
       }
     };
 
     getOptions();
   }, [optionType]);
+
+  if (error) {
+    return <AlertBanner />;
+  }
 
   const ItemComponent = OPTIONS_TYPES_AS_COMPONENT[optionType] ?? null;
 
