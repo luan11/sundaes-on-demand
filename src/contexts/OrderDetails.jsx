@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useState, useMemo, useEffect } from 'react';
 
 import {
   OPTION_TYPE_SCOOPS,
@@ -6,24 +6,15 @@ import {
   PRICE_PER_ITEM,
 } from '../constants/entry';
 
-const OrderDetails = createContext();
-
-export const useOrderDetails = () => {
-  const context = useContext(OrderDetails);
-
-  if (!context) {
-    throw new Error(
-      `useOrderDetails must be used within an OrderDetailsProvider`
-    );
-  }
-
-  return context;
-};
+export const OrderDetails = createContext();
 
 const calculateSubtotal = (optionType, optionCounts) => {
-  const optionCount = optionCounts[optionType]
-    .values()
-    .reduce((prevValue, currentValue) => prevValue + currentValue);
+  const optionCount =
+    optionCounts[optionType].size > 0
+      ? Array.from(optionCounts[optionType].values()).reduce(
+          (prevValue, currentValue) => prevValue + currentValue
+        )
+      : 0;
 
   return optionCount * PRICE_PER_ITEM[optionType];
 };
