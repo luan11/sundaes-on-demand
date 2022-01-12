@@ -1,5 +1,5 @@
 import P from 'prop-types';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 
 import { BASE_URL } from '../../constants/entry';
 
@@ -11,19 +11,12 @@ const ToppingOptions = ({ name, imagePath, updateItemCount }) => (
       alt={`${name} topping`}
     />
 
-    <Form.Group controlId={`${name}-count`} as={Row} style={{ marginTop: 10 }}>
-      <Form.Label column xs={6} style={{ textAlign: `right` }}>
-        {name}
-      </Form.Label>
-      <Col xs={5} style={{ textAlign: `left` }}>
-        <Form.Control
-          onChange={updateItemCount}
-          type="number"
-          min={0}
-          defaultValue={0}
-        />
-      </Col>
-    </Form.Group>
+    <Form.Check
+      id={`${name}-count`}
+      type="checkbox"
+      label={name}
+      onChange={updateItemCount}
+    />
   </Col>
 );
 

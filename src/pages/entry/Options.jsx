@@ -6,6 +6,7 @@ import api from '../../services/api';
 import {
   OPTIONS_TYPES_AS_COMPONENT,
   PRICE_PER_ITEM,
+  INPUT_TYPE_CHECKBOX,
 } from '../../constants/entry';
 import AlertBanner from '../common/AlertBanner';
 import useOrderDetails from '../../hooks/useOrderDetails';
@@ -37,7 +38,15 @@ const Options = ({ optionType }) => {
   const title = optionType.charAt(0).toUpperCase() + optionType.slice(1);
 
   const handleUpdateItemCount = (itemName) => (event) =>
-    updateItemCount(itemName, event.target.value, optionType);
+    updateItemCount(
+      itemName,
+      event.target.type === INPUT_TYPE_CHECKBOX
+        ? event.target.checked
+          ? 1
+          : 0
+        : event.target.value,
+      optionType
+    );
 
   const optionItems = items.map(({ name, imagePath }) => (
     <ItemComponent
