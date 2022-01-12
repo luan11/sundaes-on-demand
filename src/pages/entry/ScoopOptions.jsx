@@ -1,5 +1,5 @@
 import P from 'prop-types';
-import Col from 'react-bootstrap/Col';
+import { Col, Form, Row } from 'react-bootstrap';
 
 import { BASE_URL } from '../../constants/entry';
 
@@ -10,6 +10,20 @@ const ScoopOptions = ({ name, imagePath, updateItemCount }) => (
       src={`${BASE_URL}${imagePath}`}
       alt={`${name} scoop`}
     />
+
+    <Form.Group controlId={`${name}-count`} as={Row} style={{ marginTop: 10 }}>
+      <Form.Label column xs={6} style={{ textAlign: `right` }}>
+        {name}
+      </Form.Label>
+      <Col xs={5} style={{ textAlign: `left` }}>
+        <Form.Control
+          onChange={updateItemCount}
+          type="number"
+          min={0}
+          defaultValue={0}
+        />
+      </Col>
+    </Form.Group>
   </Col>
 );
 

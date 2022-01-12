@@ -44,7 +44,7 @@ const Options = ({ optionType }) => {
       key={name}
       name={name}
       imagePath={imagePath}
-      updateItemCount={handleUpdateItemCount}
+      updateItemCount={handleUpdateItemCount(name)}
     />
   ));
 

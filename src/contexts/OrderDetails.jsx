@@ -6,6 +6,13 @@ import {
   PRICE_PER_ITEM,
 } from '../constants/entry';
 
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat(`en-US`, {
+    style: `currency`,
+    currency: `USD`,
+    minimumFractionDigits: 2,
+  }).format(amount);
+
 export const OrderDetails = createContext();
 
 const calculateSubtotal = (optionType, optionCounts) => {
@@ -24,16 +31,22 @@ export const OrderDetailsProvider = ({ children, ...props }) => {
     scoops: new Map(),
     toppings: new Map(),
   });
+  const zeroCurrency = formatCurrency(0);
   const [totals, setTotals] = useState({
-    scoops: 0,
-    toppings: 0,
-    grandTotal: 0,
+    scoops: zeroCurrency,
+    toppings: zeroCurrency,
+    grandTotal: zeroCurrency,
   });
 
   useEffect(() => {
-    const scoops = calculateSubtotal(OPTION_TYPE_SCOOPS, optionCounts);
-    const toppings = calculateSubtotal(OPTION_TYPE_TOPPINGS, optionCounts);
-    const grandTotal = scoops + toppings;
+    const scoopsSubtotal = calculateSubtotal(OPTION_TYPE_SCOOPS, optionCounts);
+    const scoops = formatCurrency(scoopsSubtotal);
+    const toppingsSubtotal = calculateSubtotal(
+      OPTION_TYPE_TOPPINGS,
+      optionCounts
+    );
+    const toppings = formatCurrency(toppingsSubtotal);
+    const grandTotal = formatCurrency(scoopsSubtotal + toppingsSubtotal);
 
     setTotals({ scoops, toppings, grandTotal });
   }, [optionCounts]);

@@ -17,7 +17,7 @@ const ToppingOptions = ({ name, imagePath, updateItemCount }) => (
       </Form.Label>
       <Col xs={5} style={{ textAlign: `left` }}>
         <Form.Control
-          onChange={updateItemCount(name)}
+          onChange={updateItemCount}
           type="number"
           min={0}
           defaultValue={0}
