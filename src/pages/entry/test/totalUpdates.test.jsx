@@ -6,6 +6,7 @@ import {
   OPTION_TYPE_TOPPINGS,
 } from '../../../constants/entry';
 import Options from '../Options';
+import OrderEntry from '../OrderEntry';
 
 describe(`totalUpdates`, () => {
   it(`Should update scoop subtotal when scoops change`, async () => {
@@ -46,5 +47,84 @@ describe(`totalUpdates`, () => {
 
     userEvent.click(hotFudgeCheckbox);
     expect(toppingsSubtotal).toHaveTextContent(`1.50`);
+  });
+
+  describe(`Grand Total`, () => {
+    it(`Should be initially $0.00`, () => {
+      render(<OrderEntry />);
+
+      const grandTotal = screen.getByRole(`heading`, {
+        name: /grand total: \$/i,
+      });
+      expect(grandTotal).toHaveTextContent(`0.00`);
+    });
+
+    it(`Should update properly if scoop is added first`, async () => {
+      render(<OrderEntry />);
+
+      const grandTotal = screen.getByRole(`heading`, {
+        name: /grand total: \$/i,
+      });
+
+      const vanillaInput = await screen.findByRole(`spinbutton`, {
+        name: `Vanilla`,
+      });
+      userEvent.clear(vanillaInput);
+      userEvent.type(vanillaInput, `2`);
+      expect(grandTotal).toHaveTextContent(`4.00`);
+
+      const cherriesCheckbox = await screen.findByRole(`checkbox`, {
+        name: `Cherries`,
+      });
+      userEvent.click(cherriesCheckbox);
+      expect(grandTotal).toHaveTextContent(`5.50`);
+    });
+
+    it(`Should update properly if topping is added first`, async () => {
+      render(<OrderEntry />);
+
+      const grandTotal = screen.getByRole(`heading`, {
+        name: /grand total: \$/i,
+      });
+
+      const cherriesCheckbox = await screen.findByRole(`checkbox`, {
+        name: `Cherries`,
+      });
+      userEvent.click(cherriesCheckbox);
+      expect(grandTotal).toHaveTextContent(`1.50`);
+
+      const vanillaInput = await screen.findByRole(`spinbutton`, {
+        name: `Vanilla`,
+      });
+      userEvent.clear(vanillaInput);
+      userEvent.type(vanillaInput, `2`);
+      expect(grandTotal).toHaveTextContent(`5.50`);
+    });
+
+    it(`Should update properly if an item is removed`, async () => {
+      render(<OrderEntry />);
+
+      const cherriesCheckbox = await screen.findByRole(`checkbox`, {
+        name: `Cherries`,
+      });
+      userEvent.click(cherriesCheckbox);
+
+      const vanillaInput = await screen.findByRole(`spinbutton`, {
+        name: `Vanilla`,
+      });
+      userEvent.clear(vanillaInput);
+      userEvent.type(vanillaInput, `2`);
+
+      userEvent.clear(vanillaInput);
+      userEvent.type(vanillaInput, `1`);
+
+      const grandTotal = screen.getByRole(`heading`, {
+        name: /grand total: \$/i,
+      });
+      expect(grandTotal).toHaveTextContent(`3.50`);
+
+      userEvent.click(cherriesCheckbox);
+      expect(grandTotal).toHaveTextContent(`2.00`);
+    });
   });
 });
