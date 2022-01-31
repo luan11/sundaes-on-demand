@@ -5,13 +5,7 @@ import {
   OPTION_TYPE_TOPPINGS,
   PRICE_PER_ITEM,
 } from '../constants/entry';
-
-const formatCurrency = (amount) =>
-  new Intl.NumberFormat(`en-US`, {
-    style: `currency`,
-    currency: `USD`,
-    minimumFractionDigits: 2,
-  }).format(amount);
+import { formatCurrency } from '../utils';
 
 export const OrderDetails = createContext();
 

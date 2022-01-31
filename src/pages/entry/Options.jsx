@@ -10,6 +10,7 @@ import {
 } from '../../constants/entry';
 import AlertBanner from '../common/AlertBanner';
 import useOrderDetails from '../../hooks/useOrderDetails';
+import { formatCurrency } from '../../utils';
 
 const Options = ({ optionType }) => {
   const [orderDetails, updateItemCount] = useOrderDetails();
@@ -60,7 +61,7 @@ const Options = ({ optionType }) => {
   return (
     <>
       <h2>{title}</h2>
-      <p>{PRICE_PER_ITEM[optionType]} each</p>
+      <p>{formatCurrency(PRICE_PER_ITEM[optionType])} each</p>
       <p>{`${title} total: ${orderDetails.totals[optionType]}`}</p>
       <Row>{optionItems}</Row>
     </>
