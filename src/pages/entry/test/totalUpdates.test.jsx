@@ -50,21 +50,14 @@ describe(`totalUpdates`, () => {
   });
 
   describe(`Grand Total`, () => {
-    it(`Should be initially $0.00`, () => {
-      render(<OrderEntry />);
-
-      const grandTotal = screen.getByRole(`heading`, {
-        name: /grand total: \$/i,
-      });
-      expect(grandTotal).toHaveTextContent(`0.00`);
-    });
-
     it(`Should update properly if scoop is added first`, async () => {
       render(<OrderEntry />);
 
       const grandTotal = screen.getByRole(`heading`, {
         name: /grand total: \$/i,
       });
+
+      expect(grandTotal).toHaveTextContent(`0.00`);
 
       const vanillaInput = await screen.findByRole(`spinbutton`, {
         name: `Vanilla`,
@@ -86,6 +79,8 @@ describe(`totalUpdates`, () => {
       const grandTotal = screen.getByRole(`heading`, {
         name: /grand total: \$/i,
       });
+
+      expect(grandTotal).toHaveTextContent(`0.00`);
 
       const cherriesCheckbox = await screen.findByRole(`checkbox`, {
         name: `Cherries`,
